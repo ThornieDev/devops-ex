@@ -1,0 +1,19 @@
+- name: Setup EC2 instance
+  hosts: ec2
+  become: yes
+  tasks:
+    - name: Update APT package list
+      apt:
+        update_cache: yes
+
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: absent
+    - name: Install required package
+      apt:
+        name:
+          - wget
+          - curl
+          - git
+        state: absent

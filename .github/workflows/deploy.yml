@@ -1,0 +1,84 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# name: CI/CD to EC2
+# on:
+#   push:
+#     branches:
+#       - test
+# jobs:
+#   # Continous Integrateion (CI)
+#   test:
+#     runs-on: ubuntu-latest
+#     steps:
+#     # To clone code to work on
+#     - name: Checkout repository
+#       uses: actions/checkout@v2
+#     - name: Set up Node.js 18
+#       uses: actions/setup-node@v2
+#       with:
+#         node-version: 18.x
+#     - name: Install dependencies
+#       # Use Unix commands
+#       run: npm install
+#     - name: Run tests
+#       run: npm test
+#   # Continous Delivey (CD)
+#   deploy:
+#     needs: test
+#     runs-on: ubuntu-latest
+#     steps:
+#     - name: Checkout code
+#       uses: actions/checkout@v3
+
+#     - name: Set up SSH agent
+#       uses: webfactory/ssh-agent@v0.5.3
+#       with:
+#         ssh-private-key: ${{ secrets.EC2_KEY }}
+
+#     - name: Run deployment script on EC2
+#       env:
+#         EC2_HOST: ${{ secrets.EC2_HOST }}
+#         EC2_USER: ${{ secrets.EC2_USER }}
+#         EC2_SSH_PORT: ${{ secrets.EC2_SSH_PORT }}
+#       run: |
+#         ssh -p $EC2_SSH_PORT -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST << 'EOF'
+#           . ~/.nvm/nvm.sh
+#           set -e # Exit immediately if a command exits with a non-zero status
+#           echo "Pulling latest changes from git repository"
+#           cd devops-ex
+#           git pull 
+#           echo "Installing dependencies"
+#           npm install
+#           echo "Building the application"
+#           pm2 restart all
+#         EOF
