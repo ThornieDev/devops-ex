@@ -12,10 +12,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     # To clone code to work on
-    - name: Test VM
-    #RTerminal
-      run: ls
+    - name: Clone repository
+    #Terminal
+      run: git clone https://github.com/ThornieDev/devops-ex.git
 
+    - name: List folder
+      run: ls -la
 
 
 
