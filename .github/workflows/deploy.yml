@@ -11,13 +11,27 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    # To clone code to work on
-    - name: Clone repository
-    #Terminal
-      run: git clone https://github.com/ThornieDev/devops-ex.git
+    # # To clone code to work on
+    # - name: Clone repository
+    # #Terminal
+    #   run: git clone https://github.com/ThornieDev/devops-ex.git
 
-    - name: List folder
-      run: ls -la
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    # - name: List folders
+    #   run: ls -la
+
+    - name: Set up Node.js 18
+      uses: actions/setup-node@v2
+      with:
+        node-version: 18.x
+    - name: Test NodeJS
+      run: |
+        node -v
+    - name: Test Dir
+      run: |
+        pwd
 
 
 
